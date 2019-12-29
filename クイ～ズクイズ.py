@@ -1,4 +1,4 @@
-#引き算ゲーム
+#算数ゲーム
 import random
 import time
 
