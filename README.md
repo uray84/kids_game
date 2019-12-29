@@ -3,5 +3,7 @@ quiz game for kids homework
 
 
 ##TO DO
-\nexport file as apk for use on tablet
-\nadd additional quizes
+
+export file as apk for use on tablet
+
+add additional quizes
