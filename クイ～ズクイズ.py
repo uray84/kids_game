@@ -24,6 +24,27 @@ subtraction2 = [["11-2=", "9"], ["11-3=", "8"], ["11-4=", "7"], ["11-5=", "6"],
             ["15-8=", "7"], ["15-9=", "6"], ["16-7=", "9"], ["16-8=", "8"],
             ["16-9=", "7"], ["17-8=", "9"], ["17-9=", "8"], ["18-9=", "9"]]
 
+# sample code for the simpleGUI (sg) library
+"""
+sg.theme('SandyBeach')	# Add a touch of color
+# All the stuff inside your window.
+layout = [  [sg.Text('Some text on Row 1')],
+            [sg.Text('Enter something on Row 2'), sg.InputText()],
+            [sg.Button('Ok'), sg.Button('Cancel')] ]
+
+# Create the Window
+window = sg.Window('Window Title', layout)
+# Event Loop to process "events" and get the "values" of the inputs
+while True:
+    event, values = window.read()
+    if event == sg.WIN_CLOSED or event == 'Cancel':	# if user closes window or clicks cancel
+        break
+    print('You entered ', values[0])
+
+window.close()
+"""
+
+
 # 質問選択
 print("クイ～ズクイズ、なんのクイズ？")
 print("たしざん２： 1\nひきざん２： 2")
