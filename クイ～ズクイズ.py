@@ -116,10 +116,10 @@ sg.popup('Title',
             'The values are', values)      
             
 """
-
+# TODO: add parent GUI to select question list (buttons) and display stopwatch
 
 # 質問選択
-print("クイ～ズクイズ、なんのクイズ？")
+print("クイ～ズ クイズ、なんのクイズ？")
 print("たしざん２： 1 \nひきざん２： 2 ")
 quiz_choice = input("クイズをえらんでください： ")
 while quiz_choice != "1" and quiz_choice != "2":
@@ -144,27 +144,26 @@ count = 0
 
 sg.theme('TanBlue')
 
-layout = [[sg.Text('クイ～ズクイズ！', font=('Helvetica', 25))],
-          [sg.Text(size=(10, 1), font=('Helvetica', 20), key='question'),
-           sg.Text(size=(10, 1), key='number', justification='right')],
-          [sg.Input(size=(10, 1), justification='left', font=('Helvetica', 20), key='input')],
+layout = [[sg.Text('クイ～ズ クイズ！', font=25)],
+          [sg.Text(size=(7, 1), key='question'),
+           sg.Text(size=(20, 1), key='number', justification='right')],
+          [sg.Input(size=(20, 1), font=('Helvetica', 20), key='input'),
+           sg.Text(size=(5, 1), key='out')],
           [sg.Button('7'), sg.Button('8'), sg.Button('9')],
           [sg.Button('4'), sg.Button('5'), sg.Button('6')],
           [sg.Button('1'), sg.Button('2'), sg.Button('3')],
-          [sg.Button('Submit'), sg.Button('0'), sg.Button('Clear')],
-          [sg.Text(size=(15, 1), font=('Helvetica', 25), key='out')]]
+          [sg.Button('Submit'), sg.Button('0'), sg.Button('Clear')]]
 
-window = sg.Window('Keypad', layout, default_button_element_size=(10, 4), auto_size_buttons=False)
+window = sg.Window('Keypad', layout, default_button_element_size=(10, 2), auto_size_buttons=False, font=20)
 
 # Loop forever reading the window's values, updating the Input field
 keys_entered = ''
 submit = ''
 
+# TODO: fix display to update with next question after answer
 
 for i in question_list:
 
-    if count >= 37:
-        break
     count += 1
     count_text = (str(count) + "/" + str(len(question_list)))
     print(count_text)
@@ -191,7 +190,7 @@ for i in question_list:
         window['input'].update(keys_entered)  # change the window to reflect current key string
 
         if answer == submit:
-            window['out'].update('◯')
+            window['out'].update(answer+' ◯')
             submit = ''
             break
 #            if temp_mistake >= 1:
@@ -200,7 +199,7 @@ for i in question_list:
         else:
             window['out'].update('')
 #            temp_mistake += 1
-    pass
+
 
 # 時間計算
 seconds = int(time.time() - start_time)
