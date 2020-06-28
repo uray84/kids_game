@@ -206,7 +206,7 @@ for i in question_list:
 seconds = int(time.time() - start_time)
 
 # 結果発表
-print("おわりました、おめでとうございます！")
-print("かかったじかん：", int(seconds / 60), "ふん", seconds % 60, "びょう")
-print("まちがえたしつもん：", mistake_count, "けん")
+print("終わりました、おめでとうございます！")
+print("かかった時間：", int(seconds / 60), "分", seconds % 60, "秒")
+print("まちがえたしつもん：", mistake_count, "件")
 print("明日もがんばりましょう～")
