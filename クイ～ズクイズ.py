@@ -116,35 +116,22 @@ sg.popup('Title',
             'The values are', values)      
             
 """
-# TODO: add parent GUI to select question list (buttons) and display stopwatch
-
-# 質問選択
-print("クイ～ズ クイズ、なんのクイズ？")
-print("たしざん２： 1 \nひきざん２： 2 ")
-quiz_choice = input("クイズをえらんでください： ")
-while quiz_choice != "1" and quiz_choice != "2":
-    quiz_choice = input("もう１かい、クイズをえらんでください： ")
-
-if quiz_choice == "1":
-    question_list = addition2
-    print("たしざんのクイズやりましょう～")
-else:
-    question_list = subtraction2
-    print("ひきざんのクイズやりましょう～")
-
-# 順番をランダム可
-random.shuffle(question_list)
-
-start_time = time.time()
-mistake_count = 0
-temp_mistake = 0
-count = 0
+# TODO: combine GUI windows into 1 window - frames sorta thing
+# TODO: add stopwatch display
 
 # code for number pad window
 
 sg.theme('TanBlue')
 
 layout = [[sg.Text('クイ～ズ クイズ！', font=25)],
+          [sg.Text('何のクイズ？', font=25)],
+          [sg.Button('たし算'), sg.Button('ひき算')],
+          [sg.Text(size=(7, 1), key='question_choice')]]
+
+main_window = sg.Window('Keypad', layout, default_button_element_size=(10, 2), auto_size_buttons=False, font=20)
+
+
+layout1 = [[sg.Text('クイ～ズ クイズ！', font=25)],
           [sg.Text(size=(7, 1), key='question'),
            sg.Text(size=(20, 1), key='number', justification='right')],
           [sg.Input(size=(20, 1), font=('Helvetica', 20), key='input'),
@@ -154,51 +141,80 @@ layout = [[sg.Text('クイ～ズ クイズ！', font=25)],
           [sg.Button('1'), sg.Button('2'), sg.Button('3')],
           [sg.Button('Submit'), sg.Button('0'), sg.Button('Clear')]]
 
-window = sg.Window('Keypad', layout, default_button_element_size=(10, 2), auto_size_buttons=False, font=20)
+window = sg.Window('Keypad', layout1, default_button_element_size=(10, 2), auto_size_buttons=False, font=20)
 
-# Loop forever reading the window's values, updating the Input field
 keys_entered = ''
 submit = ''
 
-# TODO: fix display to update with next question after answer
 
-for i in question_list:
+mistake_count = 0
+temp_mistake = 0
+count = 0
 
-    count += 1
-    count_text = (str(count) + "/" + str(len(question_list)))
-    print(count_text)
-    question = (i[0])
-    answer = (i[1])
+while True:
+    event, values = main_window.read()  # read the window
 
-    while True:
-        event, values = window.read()  # read the window
-        window['question'].update(question)
-        window['number'].update(count_text)
+    if event == 'たし算':
+        question_list = addition2
+    elif event == 'ひき算':
+        question_list = subtraction2
 
-        if event == sg.WIN_CLOSED:  # if the X button clicked, just exit
-            break
-        if event == 'Clear':  # clear keys if clear button
-            keys_entered = ''
-        elif event in '1234567890':
-            keys_entered = values['input']  # get what's been entered so far
-            keys_entered += event  # add the new digit
-        elif event == 'Submit':
-            submit = values['input']
-            window['out'].update(submit)  # output the final string
-            keys_entered = ''
+    random.shuffle(question_list)
 
-        window['input'].update(keys_entered)  # change the window to reflect current key string
+    if event == sg.WIN_CLOSED:  # if the X button clicked, just exit
+        break
 
-        if answer == submit:
-            window['out'].update(answer+' ◯')
-            submit = ''
-            break
-#            if temp_mistake >= 1:
-#                mistake_count += 1
-#                temp_mistake = 0
-        else:
-            window['out'].update('')
-#            temp_mistake += 1
+    # stop watch start
+    start_time = time.time()
+
+    for i in question_list:
+
+        count += 1
+        count_text = (str(count) + "/" + str(len(question_list)))
+        print(count_text)
+        question = (i[0])
+        answer = (i[1])
+
+        # TODO: fix display to update with next question after answer
+
+        while True:
+            event, values = window.read()  # read the window
+            window['question'].update(question)
+            window['number'].update(count_text)
+
+            if event == sg.WIN_CLOSED:  # if the X button clicked, just exit
+                break
+            if event == 'Clear':  # clear keys if clear button
+                keys_entered = ''
+            elif event in '1234567890':
+                keys_entered = values['input']  # get what's been entered so far
+                keys_entered += event  # add the new digit
+            elif event == 'Submit':
+                submit = values['input']
+                window['out'].update(submit)  # output the final string
+                keys_entered = ''
+
+            window['input'].update(keys_entered)  # change the window to reflect current key string
+
+            if answer == submit:
+                window['out'].update(answer + ' ◯')
+                submit = ''
+                break
+            #            if temp_mistake >= 1:
+            #                mistake_count += 1
+            #                temp_mistake = 0
+            else:
+                window['out'].update('')
+    #            temp_mistake += 1
+
+            if count >= 37:
+                # TODO: close window
+                break
+
+
+
+
+# Loop forever reading the window's values, updating the Input field
 
 
 # 時間計算
