@@ -31,131 +31,35 @@ subtraction = [["11-2=", "9"], ["11-3=", "8"], ["11-4=", "7"], ["11-5=", "6"],
                ["15-8=", "7"], ["15-9=", "6"], ["16-7=", "9"], ["16-8=", "8"],
                ["16-9=", "7"], ["17-8=", "9"], ["17-9=", "8"], ["18-9=", "9"]]
 
-# sample code for the simpleGUI (sg) library
-"""
--------------------------------------
-# stopwatch code
-
-sg.theme('DarkBrown1')
-
-layout = [  [sg.Text('Stopwatch', size=(20, 2), justification='center')],
-            [sg.Text(size=(10, 2), font=('Helvetica', 20), justification='center', key='-OUTPUT-')],
-            [sg.T(' ' * 5), sg.Button('Start/Stop', focus=True), sg.Quit()]]
-
-window = sg.Window('Stopwatch Timer', layout)
-
-timer_running, counter = True, 0
-
-while True:                                 # Event Loop
-    event, values = window.read(timeout=10) # Please try and use as high of a timeout value as you can
-    if event in (sg.WIN_CLOSED, 'Quit'):             # if user closed the window using X or clicked Quit button
-        break
-    elif event == 'Start/Stop':
-        timer_running = not timer_running
-    if timer_running:
-        window['-OUTPUT-'].update('{:02d}:{:02d}.{:02d}'.format((counter // 100) // 60, (counter // 100) % 60, counter % 100))
-        counter += 1
-window.close()
-
----------------------------------------------
-
-# multiple elements in a single ui
-
-
-#!/usr/bin/env Python3      
-import PySimpleGUI as sg      
-
-sg.ChangeLookAndFeel('GreenTan')      
-
-# ------ Menu Definition ------ #      
-menu_def = [['File', ['Open', 'Save', 'Exit', 'Properties']],      
-            ['Edit', ['Paste', ['Special', 'Normal', ], 'Undo'], ],      
-            ['Help', 'About...'], ]      
-
-# ------ Column Definition ------ #      
-column1 = [[sg.Text('Column 1', background_color='#F7F3EC', justification='center', size=(10, 1))],      
-            [sg.Spin(values=('Spin Box 1', '2', '3'), initial_value='Spin Box 1')],      
-            [sg.Spin(values=('Spin Box 1', '2', '3'), initial_value='Spin Box 2')],      
-            [sg.Spin(values=('Spin Box 1', '2', '3'), initial_value='Spin Box 3')]]      
-
-layout = [      
-    [sg.Menu(menu_def, tearoff=True)],      
-    [sg.Text('All graphic widgets in one window!', size=(30, 1), justification='center', font=("Helvetica", 25), 
-     relief=sg.RELIEF_RIDGE)],    
-    [sg.Text('Here is some text.... and a place to enter text')],      
-    [sg.InputText('This is my text')],      
-    
-    [sg.Frame(layout=[      
-    [sg.Checkbox('Checkbox', size=(10,1)),  sg.Checkbox('My second checkbox!', default=True)],      
-    [sg.Radio('My first Radio!     ', "RADIO1", default=True, size=(10,1)), sg.Radio('My second Radio!', "RADIO1")]], 
-    title='Options',title_color='red', relief=sg.RELIEF_SUNKEN, tooltip='Use these to set flags')],
-          
-    [sg.Multiline(default_text='This is the default Text should you decide not to type anything', size=(35, 3)),      
-        sg.Multiline(default_text='A second multi-line', size=(35, 3))],      
-    [sg.InputCombo(('Combobox 1', 'Combobox 2'), size=(20, 1)),      
-        sg.Slider(range=(1, 100), orientation='h', size=(34, 20), default_value=85)],      
-    [sg.InputOptionMenu(('Menu Option 1', 'Menu Option 2', 'Menu Option 3'))],      
-    [sg.Listbox(values=('Listbox 1', 'Listbox 2', 'Listbox 3'), size=(30, 3)),      
-        sg.Frame('Labelled Group',[[      
-        sg.Slider(range=(1, 100), orientation='v', size=(5, 20), default_value=25),      
-        sg.Slider(range=(1, 100), orientation='v', size=(5, 20), default_value=75),      
-        sg.Slider(range=(1, 100), orientation='v', size=(5, 20), default_value=10),      
-        sg.Column(column1, background_color='#F7F3EC')]])],      
-    [sg.Text('_'  * 80)],      
-    [sg.Text('Choose A Folder', size=(35, 1))],      
-    [sg.Text('Your Folder', size=(15, 1), auto_size_text=False, justification='right'),      
-        sg.InputText('Default Folder'), sg.FolderBrowse()],      
-    [sg.Submit(tooltip='Click to submit this window'), sg.Cancel()]    
-]      
-
-
-window = sg.Window('Everything bagel', layout, default_element_size=(40, 1), grab_anywhere=False)      
-
-event, values = window.read()      
-
-window.close()    
-
-sg.popup('Title',      
-            'The results of the window.',      
-            'The button clicked was "{}"'.format(event),      
-            'The values are', values)      
-            
-"""
-# TODO: add stopwatch display... maybe
-
-# code for number pad window
-
 sg.theme('SandyBeach')
 
-layout = [[sg.Text('クイ～ズ クイズ！', font=25)],
-          [sg.Text('何のクイズ？', font=25),
-           sg.Text(size=(10, 2), font=20, justification='right', key='-timer-')],
-          [sg.Button('たし算'), sg.Button('ひき算')],
-          [sg.Text(size=(7, 1), key='question_choice')],
+layout = [[sg.Text('クイ～ズ クイズ！', font=25, justification='center')],
+          [sg.Text('何のクイズ？', font=25, justification='center')],
+          [sg.Button('たし算', size=(16, 2), pad=((10, 5), 10)), sg.Button('ひき算', size=(16, 2), pad=((5, 10), 10))],
           [sg.Frame(layout=[
               [sg.Text(size=(7, 1), key='question'),
-               sg.Text(size=(20, 1), key='number', justification='right')],
-              [sg.Input(size=(20, 1), font=20, key='input'),
-               sg.Text(size=(5, 1), key='out')],
+               sg.Text(size=(5, 1), key='number', justification='right', pad=((200, 5), 5))],
+              [sg.Input(size=(22, 2), font=20, key='input', pad=(5, (5, 10))),
+               sg.Text(size=(10, 1), key='out', justification='center', pad=(5, (5, 10)), relief=sg.RELIEF_RIDGE)],
               [sg.Button('7'), sg.Button('8'), sg.Button('9')],
               [sg.Button('4'), sg.Button('5'), sg.Button('6')],
               [sg.Button('1'), sg.Button('2'), sg.Button('3')],
               [sg.Button('Submit'), sg.Button('0'), sg.Button('Clear')]
-          ], title='クイズ！')]
+          ], title='クイズ！', pad=(5, 5))]
           ]
 
-main_window = sg.Window('Keypad', layout, default_button_element_size=(10, 2), auto_size_buttons=False, font=20)
+main_window = sg.Window('Keypad', layout, default_button_element_size=(10, 2), size=(350, 450),
+                        auto_size_buttons=False, font=20, element_justification='c')
 
 keys_entered = ''
 submit = ''
 
+question_list = []
+count = 0
 mistake_count = 0
 temp_mistake = 0
-count = 0
-question_list = []
 start_time = 0
 seconds = 0
-timer_running, counter = False, 0
 
 while True:
     event, values = main_window.read()  # read the window
@@ -166,21 +70,19 @@ while True:
     if event == 'たし算':  # choose question list & start timer
         question_list = addition
         start_time = time.time()
-    #        timer_running = True
     elif event == 'ひき算':
         question_list = subtraction
         start_time = time.time()
-    #        timer_running = True
 
     random.shuffle(question_list)
 
     for i in question_list:
 
+        if event == sg.WIN_CLOSED:  # if the X button clicked, just exit
+            break
+
         count += 1
         if count > len(question_list):
-            main_window['question'].update('終わり')
-            seconds = int(time.time() - start_time)
-            #            timer_running = False
             break
         count_text = (str(count) + "/" + str(len(question_list)))
         print(count_text)
@@ -189,10 +91,6 @@ while True:
 
         main_window['question'].update(question)
         main_window['number'].update(count_text)
-
-        #        if timer_running is True:
-        #            main_window['-timer-'].update('{:02d}:{:02d}'.format((counter // 100) // 60, (counter // 100) % 60))
-        #            counter += 1
 
         while True:
             event, values = main_window.read()  # read the window
@@ -213,19 +111,42 @@ while True:
 
             main_window['input'].update(keys_entered)  # change the window to reflect current key string
 
-            if answer == submit:
-                main_window['out'].update(answer + ' ◯')
-                submit = ''
-                break
-            #            if temp_mistake >= 1:
-            #                mistake_count += 1
-            #                temp_mistake = 0
-            else:
-                main_window['out'].update('')
-            #            temp_mistake += 1
+            if event == 'Submit' and submit != answer:
+                main_window['out'].update(submit + ' Ｘ')
+                temp_mistake += 1
 
-# 結果発表
-print("終わりました、おめでとうございます！")
-print("かかった時間：", int(seconds / 60), "分", seconds % 60, "秒")
-print("まちがえたしつもん：", mistake_count, "件")
-print("明日もがんばりましょう～")
+            if answer == submit:
+                main_window['out'].update(submit + ' ◯')
+                submit = ''
+                if temp_mistake >= 1:
+                    mistake_count += 1
+                    temp_mistake = 0
+                break
+
+    if question_list:
+
+        if event == sg.WIN_CLOSED:  # if the X button clicked, just exit
+            break
+
+        main_window['question'].update('終わり')
+        seconds = int(time.time() - start_time)
+
+        # 結果発表
+        sg.popup("終わりました、おめでとうございます！",
+                 "かかった時間："+str(int(seconds / 60))+"分"+str(seconds % 60)+"秒",
+                 "まちがえたしつもん："+str(mistake_count)+"件",
+                 "明日もがんばりましょう～",
+                 title='終わり！',
+                 font=20)
+
+        # reset quiz
+        main_window['out'].update('')
+        main_window['number'].update('')
+        question_list = []
+        count = 0
+        mistake_count = 0
+        temp_mistake = 0
+        start_time = 0
+        seconds = 0
+        keys_entered = ''
+        submit = ''
