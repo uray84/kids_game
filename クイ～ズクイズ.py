@@ -38,7 +38,7 @@ layout = [[sg.Text('クイ～ズ クイズ！', font=25, justification='center')
           [sg.Button('たし算', size=(16, 2), pad=((10, 5), 10)), sg.Button('ひき算', size=(16, 2), pad=((5, 10), 10))],
           [sg.Frame(layout=[
               [sg.Text(size=(7, 1), key='question'),
-               sg.Text(size=(5, 1), key='number', justification='right', pad=((200, 5), 5))],
+               sg.Text(size=(7, 1), key='number', justification='right', pad=((150, 5), 5))],
               [sg.Input(size=(22, 2), font=20, key='input', pad=(5, (5, 10))),
                sg.Text(size=(10, 1), key='out', justification='center', pad=(5, (5, 10)), relief=sg.RELIEF_RIDGE)],
               [sg.Button('7'), sg.Button('8'), sg.Button('9')],
