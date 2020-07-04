@@ -3,12 +3,6 @@ import random
 import time
 import PySimpleGUI as sg
 
-# ↓↓code to save as exe file↓↓
-# pip install PyInstaller
-# pyinstaller -wF クイ～ズクイズ.py
-# use kivy for smartphone apps
-
-
 # 質問と答えの記入
 addition = [["2+9=", "11"], ["3+8=", "11"], ["3+9=", "12"], ["4+7=", "11"],
             ["4+8=", "12"], ["4+9=", "13"], ["5+6=", "11"], ["5+7=", "12"],
@@ -132,8 +126,8 @@ while True:
 
         # 結果発表
         sg.popup("終わりました、おめでとうございます！",
-                 "かかった時間："+str(int(seconds / 60))+"分"+str(seconds % 60)+"秒",
-                 "まちがえたしつもん："+str(mistake_count)+"件",
+                 "かかった時間：" + str(int(seconds / 60)) + "分" + str(seconds % 60) + "秒",
+                 "まちがえたしつもん：" + str(mistake_count) + "件",
                  "明日もがんばりましょう～",
                  title='終わり！',
                  font=20)
