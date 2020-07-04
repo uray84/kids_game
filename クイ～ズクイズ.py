@@ -10,27 +10,26 @@ import PySimpleGUI as sg
 # use kivy for smartphone apps
 
 
-
 # 質問と答えの記入
-addition2 = [["2+9=", "11"], ["3+8=", "11"], ["3+9=", "12"], ["4+7=", "11"],
-             ["4+8=", "12"], ["4+9=", "13"], ["5+6=", "11"], ["5+7=", "12"],
-             ["5+8=", "13"], ["5+9=", "14"], ["6+5=", "11"], ["6+6=", "12"],
-             ["6+7=", "13"], ["6+8=", "14"], ["6+9=", "15"], ["7+4=", "11"],
-             ["7+5=", "12"], ["7+6=", "13"], ["7+7=", "14"], ["7+8=", "15"],
-             ["7+9=", "16"], ["8+3=", "11"], ["8+4=", "12"], ["8+5=", "13"],
-             ["8+6=", "14"], ["8+7=", "15"], ["8+8=", "16"], ["8+9=", "17"],
-             ["9+2=", "11"], ["9+3=", "12"], ["9+4=", "13"], ["9+5=", "14"],
-             ["9+6=", "15"], ["9+7=", "16"], ["9+8=", "17"], ["9+9=", "18"]]
+addition = [["2+9=", "11"], ["3+8=", "11"], ["3+9=", "12"], ["4+7=", "11"],
+            ["4+8=", "12"], ["4+9=", "13"], ["5+6=", "11"], ["5+7=", "12"],
+            ["5+8=", "13"], ["5+9=", "14"], ["6+5=", "11"], ["6+6=", "12"],
+            ["6+7=", "13"], ["6+8=", "14"], ["6+9=", "15"], ["7+4=", "11"],
+            ["7+5=", "12"], ["7+6=", "13"], ["7+7=", "14"], ["7+8=", "15"],
+            ["7+9=", "16"], ["8+3=", "11"], ["8+4=", "12"], ["8+5=", "13"],
+            ["8+6=", "14"], ["8+7=", "15"], ["8+8=", "16"], ["8+9=", "17"],
+            ["9+2=", "11"], ["9+3=", "12"], ["9+4=", "13"], ["9+5=", "14"],
+            ["9+6=", "15"], ["9+7=", "16"], ["9+8=", "17"], ["9+9=", "18"]]
 
-subtraction2 = [["11-2=", "9"], ["11-3=", "8"], ["11-4=", "7"], ["11-5=", "6"],
-                ["11-6=", "5"], ["11-7=", "4"], ["11-8=", "3"], ["11-9=", "2"],
-                ["12-3=", "9"], ["12-4=", "8"], ["12-5=", "7"], ["12-6=", "6"],
-                ["12-7=", "5"], ["12-8=", "4"], ["12-9=", "3"], ["13-4=", "9"],
-                ["13-5=", "8"], ["13-6=", "7"], ["13-7=", "6"], ["13-8=", "5"],
-                ["13-9=", "4"], ["14-5=", "9"], ["14-6=", "8"], ["14-7=", "7"],
-                ["14-8=", "6"], ["14-9=", "5"], ["15-6=", "9"], ["15-7=", "8"],
-                ["15-8=", "7"], ["15-9=", "6"], ["16-7=", "9"], ["16-8=", "8"],
-                ["16-9=", "7"], ["17-8=", "9"], ["17-9=", "8"], ["18-9=", "9"]]
+subtraction = [["11-2=", "9"], ["11-3=", "8"], ["11-4=", "7"], ["11-5=", "6"],
+               ["11-6=", "5"], ["11-7=", "4"], ["11-8=", "3"], ["11-9=", "2"],
+               ["12-3=", "9"], ["12-4=", "8"], ["12-5=", "7"], ["12-6=", "6"],
+               ["12-7=", "5"], ["12-8=", "4"], ["12-9=", "3"], ["13-4=", "9"],
+               ["13-5=", "8"], ["13-6=", "7"], ["13-7=", "6"], ["13-8=", "5"],
+               ["13-9=", "4"], ["14-5=", "9"], ["14-6=", "8"], ["14-7=", "7"],
+               ["14-8=", "6"], ["14-9=", "5"], ["15-6=", "9"], ["15-7=", "8"],
+               ["15-8=", "7"], ["15-9=", "6"], ["16-7=", "9"], ["16-8=", "8"],
+               ["16-9=", "7"], ["17-8=", "9"], ["17-9=", "8"], ["18-9=", "9"]]
 
 # sample code for the simpleGUI (sg) library
 """
@@ -122,27 +121,27 @@ sg.popup('Title',
             'The values are', values)      
             
 """
-# TODO: combine GUI windows into 1 window - frames sorta thing
-# TODO: add stopwatch display
+# TODO: add stopwatch display... maybe
 
 # code for number pad window
 
 sg.theme('SandyBeach')
 
 layout = [[sg.Text('クイ～ズ クイズ！', font=25)],
-          [sg.Text('何のクイズ？', font=25)],
+          [sg.Text('何のクイズ？', font=25),
+           sg.Text(size=(10, 2), font=20, justification='right', key='-timer-')],
           [sg.Button('たし算'), sg.Button('ひき算')],
           [sg.Text(size=(7, 1), key='question_choice')],
           [sg.Frame(layout=[
               [sg.Text(size=(7, 1), key='question'),
                sg.Text(size=(20, 1), key='number', justification='right')],
-              [sg.Input(size=(20, 1), font=('Helvetica', 20), key='input'),
+              [sg.Input(size=(20, 1), font=20, key='input'),
                sg.Text(size=(5, 1), key='out')],
               [sg.Button('7'), sg.Button('8'), sg.Button('9')],
               [sg.Button('4'), sg.Button('5'), sg.Button('6')],
               [sg.Button('1'), sg.Button('2'), sg.Button('3')],
               [sg.Button('Submit'), sg.Button('0'), sg.Button('Clear')]
-          ], title='クイズ！', key='math')]
+          ], title='クイズ！')]
           ]
 
 main_window = sg.Window('Keypad', layout, default_button_element_size=(10, 2), auto_size_buttons=False, font=20)
@@ -155,40 +154,48 @@ temp_mistake = 0
 count = 0
 question_list = []
 start_time = 0
+seconds = 0
+timer_running, counter = False, 0
 
 while True:
     event, values = main_window.read()  # read the window
 
-    if event == 'たし算':
-        question_list = addition2
-    elif event == 'ひき算':
-        question_list = subtraction2
-
-    random.shuffle(question_list)
-
     if event == sg.WIN_CLOSED:  # if the X button clicked, just exit
         break
 
-    # stop watch start
-    start_time = time.time()
+    if event == 'たし算':  # choose question list & start timer
+        question_list = addition
+        start_time = time.time()
+    #        timer_running = True
+    elif event == 'ひき算':
+        question_list = subtraction
+        start_time = time.time()
+    #        timer_running = True
+
+    random.shuffle(question_list)
 
     for i in question_list:
 
         count += 1
         if count > len(question_list):
             main_window['question'].update('終わり')
+            seconds = int(time.time() - start_time)
+            #            timer_running = False
             break
         count_text = (str(count) + "/" + str(len(question_list)))
         print(count_text)
         question = (i[0])
         answer = (i[1])
 
-        # TODO: fix display to update with next question after answer
+        main_window['question'].update(question)
+        main_window['number'].update(count_text)
+
+        #        if timer_running is True:
+        #            main_window['-timer-'].update('{:02d}:{:02d}'.format((counter // 100) // 60, (counter // 100) % 60))
+        #            counter += 1
 
         while True:
             event, values = main_window.read()  # read the window
-            main_window['question'].update(question)
-            main_window['number'].update(count_text)
 
             if event == sg.WIN_CLOSED:  # if the X button clicked, just exit
                 break
@@ -216,10 +223,6 @@ while True:
             else:
                 main_window['out'].update('')
             #            temp_mistake += 1
-
-
-# 時間計算
-seconds = int(time.time() - start_time)
 
 # 結果発表
 print("終わりました、おめでとうございます！")
