@@ -3,7 +3,6 @@ import random
 import time
 import PySimpleGUI as sg
 
-# sg.preview_all_look_and_feel_themes() - to view simpleGUI themes
 # ↓↓code to save as exe file↓↓
 # pip install PyInstaller
 # pyinstaller -wF クイ～ズクイズ.py
