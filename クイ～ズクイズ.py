@@ -3,10 +3,12 @@ import random
 import time
 import PySimpleGUI as sg
 
+# sg.preview_all_look_and_feel_themes() - to view simpleGUI themes
 # ↓↓code to save as exe file↓↓
 # pip install PyInstaller
 # pyinstaller -wF クイ～ズクイズ.py
 # use kivy for smartphone apps
+
 
 
 # 質問と答えの記入
@@ -21,14 +23,14 @@ addition2 = [["2+9=", "11"], ["3+8=", "11"], ["3+9=", "12"], ["4+7=", "11"],
              ["9+6=", "15"], ["9+7=", "16"], ["9+8=", "17"], ["9+9=", "18"]]
 
 subtraction2 = [["11-2=", "9"], ["11-3=", "8"], ["11-4=", "7"], ["11-5=", "6"],
-            ["11-6=", "5"], ["11-7=", "4"], ["11-8=", "3"], ["11-9=", "2"],
-            ["12-3=", "9"], ["12-4=", "8"], ["12-5=", "7"], ["12-6=", "6"],
-            ["12-7=", "5"], ["12-8=", "4"], ["12-9=", "3"], ["13-4=", "9"],
-            ["13-5=", "8"], ["13-6=", "7"], ["13-7=", "6"], ["13-8=", "5"],
-            ["13-9=", "4"], ["14-5=", "9"], ["14-6=", "8"], ["14-7=", "7"],
-            ["14-8=", "6"], ["14-9=", "5"], ["15-6=", "9"], ["15-7=", "8"],
-            ["15-8=", "7"], ["15-9=", "6"], ["16-7=", "9"], ["16-8=", "8"],
-            ["16-9=", "7"], ["17-8=", "9"], ["17-9=", "8"], ["18-9=", "9"]]
+                ["11-6=", "5"], ["11-7=", "4"], ["11-8=", "3"], ["11-9=", "2"],
+                ["12-3=", "9"], ["12-4=", "8"], ["12-5=", "7"], ["12-6=", "6"],
+                ["12-7=", "5"], ["12-8=", "4"], ["12-9=", "3"], ["13-4=", "9"],
+                ["13-5=", "8"], ["13-6=", "7"], ["13-7=", "6"], ["13-8=", "5"],
+                ["13-9=", "4"], ["14-5=", "9"], ["14-6=", "8"], ["14-7=", "7"],
+                ["14-8=", "6"], ["14-9=", "5"], ["15-6=", "9"], ["15-7=", "8"],
+                ["15-8=", "7"], ["15-9=", "6"], ["16-7=", "9"], ["16-8=", "8"],
+                ["16-9=", "7"], ["17-8=", "9"], ["17-9=", "8"], ["18-9=", "9"]]
 
 # sample code for the simpleGUI (sg) library
 """
@@ -79,12 +81,16 @@ column1 = [[sg.Text('Column 1', background_color='#F7F3EC', justification='cente
 
 layout = [      
     [sg.Menu(menu_def, tearoff=True)],      
-    [sg.Text('All graphic widgets in one window!', size=(30, 1), justification='center', font=("Helvetica", 25), relief=sg.RELIEF_RIDGE)],    
+    [sg.Text('All graphic widgets in one window!', size=(30, 1), justification='center', font=("Helvetica", 25), 
+     relief=sg.RELIEF_RIDGE)],    
     [sg.Text('Here is some text.... and a place to enter text')],      
     [sg.InputText('This is my text')],      
+    
     [sg.Frame(layout=[      
     [sg.Checkbox('Checkbox', size=(10,1)),  sg.Checkbox('My second checkbox!', default=True)],      
-    [sg.Radio('My first Radio!     ', "RADIO1", default=True, size=(10,1)), sg.Radio('My second Radio!', "RADIO1")]], title='Options',title_color='red', relief=sg.RELIEF_SUNKEN, tooltip='Use these to set flags')],      
+    [sg.Radio('My first Radio!     ', "RADIO1", default=True, size=(10,1)), sg.Radio('My second Radio!', "RADIO1")]], 
+    title='Options',title_color='red', relief=sg.RELIEF_SUNKEN, tooltip='Use these to set flags')],
+          
     [sg.Multiline(default_text='This is the default Text should you decide not to type anything', size=(35, 3)),      
         sg.Multiline(default_text='A second multi-line', size=(35, 3))],      
     [sg.InputCombo(('Combobox 1', 'Combobox 2'), size=(20, 1)),      
@@ -121,35 +127,34 @@ sg.popup('Title',
 
 # code for number pad window
 
-sg.theme('TanBlue')
+sg.theme('SandyBeach')
 
 layout = [[sg.Text('クイ～ズ クイズ！', font=25)],
           [sg.Text('何のクイズ？', font=25)],
           [sg.Button('たし算'), sg.Button('ひき算')],
-          [sg.Text(size=(7, 1), key='question_choice')]]
+          [sg.Text(size=(7, 1), key='question_choice')],
+          [sg.Frame(layout=[
+              [sg.Text(size=(7, 1), key='question'),
+               sg.Text(size=(20, 1), key='number', justification='right')],
+              [sg.Input(size=(20, 1), font=('Helvetica', 20), key='input'),
+               sg.Text(size=(5, 1), key='out')],
+              [sg.Button('7'), sg.Button('8'), sg.Button('9')],
+              [sg.Button('4'), sg.Button('5'), sg.Button('6')],
+              [sg.Button('1'), sg.Button('2'), sg.Button('3')],
+              [sg.Button('Submit'), sg.Button('0'), sg.Button('Clear')]
+          ], title='クイズ！', key='math')]
+          ]
 
 main_window = sg.Window('Keypad', layout, default_button_element_size=(10, 2), auto_size_buttons=False, font=20)
-
-
-layout1 = [[sg.Text('クイ～ズ クイズ！', font=25)],
-          [sg.Text(size=(7, 1), key='question'),
-           sg.Text(size=(20, 1), key='number', justification='right')],
-          [sg.Input(size=(20, 1), font=('Helvetica', 20), key='input'),
-           sg.Text(size=(5, 1), key='out')],
-          [sg.Button('7'), sg.Button('8'), sg.Button('9')],
-          [sg.Button('4'), sg.Button('5'), sg.Button('6')],
-          [sg.Button('1'), sg.Button('2'), sg.Button('3')],
-          [sg.Button('Submit'), sg.Button('0'), sg.Button('Clear')]]
-
-window = sg.Window('Keypad', layout1, default_button_element_size=(10, 2), auto_size_buttons=False, font=20)
 
 keys_entered = ''
 submit = ''
 
-
 mistake_count = 0
 temp_mistake = 0
 count = 0
+question_list = []
+start_time = 0
 
 while True:
     event, values = main_window.read()  # read the window
@@ -170,6 +175,9 @@ while True:
     for i in question_list:
 
         count += 1
+        if count > len(question_list):
+            main_window['question'].update('終わり')
+            break
         count_text = (str(count) + "/" + str(len(question_list)))
         print(count_text)
         question = (i[0])
@@ -178,9 +186,9 @@ while True:
         # TODO: fix display to update with next question after answer
 
         while True:
-            event, values = window.read()  # read the window
-            window['question'].update(question)
-            window['number'].update(count_text)
+            event, values = main_window.read()  # read the window
+            main_window['question'].update(question)
+            main_window['number'].update(count_text)
 
             if event == sg.WIN_CLOSED:  # if the X button clicked, just exit
                 break
@@ -190,31 +198,24 @@ while True:
                 keys_entered = values['input']  # get what's been entered so far
                 keys_entered += event  # add the new digit
             elif event == 'Submit':
+                if count > len(question_list):
+                    break
                 submit = values['input']
-                window['out'].update(submit)  # output the final string
+                main_window['out'].update(submit)  # output the final string
                 keys_entered = ''
 
-            window['input'].update(keys_entered)  # change the window to reflect current key string
+            main_window['input'].update(keys_entered)  # change the window to reflect current key string
 
             if answer == submit:
-                window['out'].update(answer + ' ◯')
+                main_window['out'].update(answer + ' ◯')
                 submit = ''
                 break
             #            if temp_mistake >= 1:
             #                mistake_count += 1
             #                temp_mistake = 0
             else:
-                window['out'].update('')
-    #            temp_mistake += 1
-
-            if count >= 37:
-                # TODO: close window
-                break
-
-
-
-
-# Loop forever reading the window's values, updating the Input field
+                main_window['out'].update('')
+            #            temp_mistake += 1
 
 
 # 時間計算
