@@ -125,8 +125,8 @@ while True:
 
         # 結果発表
         sg.popup("終わりました、おめでとうございます！",
-                 "かかった時間：" + str(int(seconds / 60)) + "分" + str(seconds % 60) + "秒",
-                 "まちがえたしつもん：" + str(mistake_count) + "件",
+                 f"かかった時間：{int(seconds / 60)}分{seconds % 60}秒",
+                 f"まちがえたしつもん：{mistake_count}件",
                  "明日もがんばりましょう～",
                  title='終わり！',
                  font=20)
