@@ -102,12 +102,12 @@ layout = [
     ],
 ]
 
-# 画面のサイズ
-# ボタン追加するとこの「size(350, xxx)」も増やす必要ある
+# size / setting of the GUI
 main_window = sg.Window(
     "Keypad",
     layout,
     default_button_element_size=(10, 2),
+    # change this XXX in [size(350, XXX)] if adding extra buttons / increasing height
     size=(350, 500),
     auto_size_buttons=False,
     font=20,
@@ -117,6 +117,7 @@ main_window = sg.Window(
 keys_entered = ""
 submit = ""
 
+# default values
 question_list = []
 count = 0
 mistake_count = 0
@@ -171,7 +172,7 @@ while True:
                 keys_entered = values["input"]  # get what's been entered so far
                 keys_entered += event  # add the new digit
             elif event == "Submit":
-                if count > len(question_list):
+                if count > len(question_list):  # end quiz if complete
                     break
                 submit = values["input"]
                 main_window["out"].update(submit)  # output the final string
