@@ -56,170 +56,182 @@ times6_9 = [
     ["9x6=", "54"],    ["9x7=", "63"],    ["9x8=", "72"],    ["9x9=", "81"],
 ]
 
-sg.theme("SandyBeach")
 
-layout = [
-    [sg.Text("クイ～ズ クイズ！", font=25, justification="center")],
-    [sg.Text("何のクイズ？", font=25, justification="center")],
-    [
-        sg.Button("たし算", size=(16, 2), pad=((10, 5), 10)),
-        sg.Button("ひき算", size=(16, 2), pad=((5, 10), 10)),
-    ],
-    [
-        sg.Button("九九2～5", size=(16, 2), pad=((10, 5), 10)),
-        sg.Button("九九6～9", size=(16, 2), pad=((5, 10), 10)),
-    ],
-    [
-        sg.Frame(
-            layout=[
-                [
-                    sg.Text(size=(7, 1), key="question"),
-                    sg.Text(
-                        size=(7, 1),
-                        key="number",
-                        justification="right",
-                        pad=((150, 5), 5),
-                    ),
+def set_up():
+    sg.theme("SandyBeach")
+
+    # GUI layout settings
+    layout = [
+        # heading
+        [sg.Text("クイ～ズ クイズ！", font=25, justification="center")],
+        [sg.Text("何のクイズ？", font=25, justification="center")],
+        # choose quiz buttons
+        [
+            sg.Button("たし算", size=(16, 2), pad=((10, 5), (10, 5))),
+            sg.Button("ひき算", size=(16, 2), pad=((5, 10), (10, 5))),
+        ],
+        [
+            sg.Button("九九2～5", size=(16, 2), pad=((10, 5), 5)),
+            sg.Button("九九6～9", size=(16, 2), pad=((5, 10), 5)),
+        ],
+        [
+            sg.Frame(
+                layout=[
+                    [
+                        # display question
+                        sg.Text(size=(7, 1), key="question"),
+                        # display question number
+                        sg.Text(
+                            size=(7, 1),
+                            key="number",
+                            justification="right",
+                            pad=((150, 5), 5),
+                        ),
+                    ],
+                    [
+                        # display user input
+                        sg.Input(size=(22, 2), font=20, key="input", pad=(5, (5, 10))),
+                        # display user input and if correct or not
+                        sg.Text(
+                            size=(10, 1),
+                            key="out",
+                            justification="center",
+                            pad=(5, (5, 10)),
+                            relief=sg.RELIEF_RIDGE,
+                        ),
+                    ],
+                    # number pad layout
+                    [sg.Button("7"), sg.Button("8"), sg.Button("9")],
+                    [sg.Button("4"), sg.Button("5"), sg.Button("6")],
+                    [sg.Button("1"), sg.Button("2"), sg.Button("3")],
+                    [sg.Button("Submit"), sg.Button("0"), sg.Button("Clear")],
                 ],
-                [
-                    sg.Input(size=(22, 2), font=20, key="input", pad=(5, (5, 10))),
-                    sg.Text(
-                        size=(10, 1),
-                        key="out",
-                        justification="center",
-                        pad=(5, (5, 10)),
-                        relief=sg.RELIEF_RIDGE,
-                    ),
-                ],
-                [sg.Button("7"), sg.Button("8"), sg.Button("9")],
-                [sg.Button("4"), sg.Button("5"), sg.Button("6")],
-                [sg.Button("1"), sg.Button("2"), sg.Button("3")],
-                [sg.Button("Submit"), sg.Button("0"), sg.Button("Clear")],
-            ],
-            title="クイズ！",
-            pad=(5, 5),
-        )
-    ],
-]
+                title="クイズ！",
+                pad=(5, 5),
+            )
+        ],
+    ]
 
-# size / setting of the GUI
-main_window = sg.Window(
-    "Keypad",
-    layout,
-    default_button_element_size=(10, 2),
-    # change this XXX in [size(350, XXX)] if adding extra buttons / increasing height
-    size=(350, 500),
-    auto_size_buttons=False,
-    font=20,
-    element_justification="c",
-)
+    # size / setting of the GUI
+    main_window = sg.Window(
+        "Keypad",
+        layout,
+        default_button_element_size=(10, 2),
+        # change this XXX in [size(350, XXX)] if adding extra buttons / increasing height
+        size=(350, 500),
+        auto_size_buttons=False,
+        font=20,
+        element_justification="c",
+    )
 
-keys_entered = ""
-submit = ""
+    # default values
+    keys_entered = ""
+    submit = ""
 
-# default values
-question_list = []
-count = 0
-mistake_count = 0
-temp_mistake = 0
-start_time = 0
-seconds = 0
+    question_list = []
+    count = 0
+    mistake_count = 0
+    temp_mistake = 0
+    start_time = 0
 
-while True:
-    event, values = main_window.read()  # read the window
-
-    if event == sg.WIN_CLOSED:  # if the X button clicked, just exit
-        break
-
-    if event == "たし算":  # choose question list & start timer
-        question_list = addition
-        start_time = time.time()
-    elif event == "ひき算":
-        question_list = subtraction
-        start_time = time.time()
-    elif event == "九九2～5":
-        question_list = times2_5
-        start_time = time.time()
-    elif event == "九九6～9":
-        question_list = times6_9
-        start_time = time.time()
-
-    random.shuffle(question_list)
-
-    for i in question_list:
+    while True:
+        event, values = main_window.read()  # read the window
 
         if event == sg.WIN_CLOSED:  # if the X button clicked, just exit
             break
 
-        count += 1
-        if count > len(question_list):
-            break
-        count_text = str(count) + "/" + str(len(question_list))
-        question = i[0]
-        answer = i[1]
+        if event == "たし算":  # choose question list & start timer
+            question_list = addition
+            start_time = time.time()
+        elif event == "ひき算":
+            question_list = subtraction
+            start_time = time.time()
+        elif event == "九九2～5":
+            question_list = times2_5
+            start_time = time.time()
+        elif event == "九九6～9":
+            question_list = times6_9
+            start_time = time.time()
 
-        main_window["question"].update(question)
-        main_window["number"].update(count_text)
+        random.shuffle(question_list)
 
-        while True:
-            event, values = main_window.read()  # read the window
+        for i in question_list:
 
             if event == sg.WIN_CLOSED:  # if the X button clicked, just exit
                 break
-            if event == "Clear":  # clear keys if clear button
-                keys_entered = ""
-            elif event in "1234567890":
-                keys_entered = values["input"]  # get what's been entered so far
-                keys_entered += event  # add the new digit
-            elif event == "Submit":
-                if count > len(question_list):  # end quiz if complete
+
+            count += 1
+            if count > len(question_list):
+                break
+            count_text = str(count) + "/" + str(len(question_list))
+            question = i[0]
+            answer = i[1]
+
+            main_window["question"].update(question)
+            main_window["number"].update(count_text)
+
+            while True:
+                event, values = main_window.read()  # read the window
+
+                if event == sg.WIN_CLOSED:  # exit with the X button
                     break
-                submit = values["input"]
-                main_window["out"].update(submit)  # output the final string
-                keys_entered = ""
+                if event == "Clear":  # clear inputted values with clear button
+                    keys_entered = ""
+                elif event in "1234567890":
+                    keys_entered = values["input"]  # get what's been entered so far
+                    keys_entered += event  # add the new digit
+                elif event == "Submit":
+                    if count > len(question_list):  # end quiz if complete
+                        break
+                    submit = values["input"]
+                    main_window["out"].update(submit)  # output the final string
+                    keys_entered = ""
 
-            main_window["input"].update(
-                keys_entered
-            )  # change the window to reflect current key string
+                main_window["input"].update(
+                    keys_entered
+                )  # change the window to reflect current key string
 
-            if event == "Submit" and submit != answer:
-                main_window["out"].update(submit + " Ｘ")
-                temp_mistake += 1
+                if event == "Submit" and submit != answer:
+                    main_window["out"].update(submit + " Ｘ")
+                    temp_mistake += 1
 
-            if answer == submit:
-                main_window["out"].update(submit + " ◯")
-                submit = ""
-                if temp_mistake >= 1:
-                    mistake_count += 1
-                    temp_mistake = 0
+                if answer == submit:
+                    main_window["out"].update(submit + " ◯")
+                    submit = ""
+                    if temp_mistake >= 1:
+                        mistake_count += 1
+                        temp_mistake = 0
+                    break
+
+        if question_list:
+
+            if event == sg.WIN_CLOSED:  # if the X button clicked, just exit
                 break
 
-    if question_list:
+            main_window["question"].update("終わり")
+            seconds = int(time.time() - start_time)
 
-        if event == sg.WIN_CLOSED:  # if the X button clicked, just exit
-            break
+            # 結果発表
+            sg.popup(
+                "終わりました、おめでとうございます！",
+                f"かかった時間：{int(seconds / 60)}分{seconds % 60}秒",
+                f"まちがえたしつもん：{mistake_count}件",
+                "明日もがんばりましょう～",
+                title="終わり！",
+                font=20,
+            )
 
-        main_window["question"].update("終わり")
-        seconds = int(time.time() - start_time)
+            # reset quiz
+            main_window["out"].update("")
+            main_window["number"].update("")
+            question_list = []
+            count = 0
+            mistake_count = 0
+            temp_mistake = 0
+            start_time = 0
+            keys_entered = ""
+            submit = ""
 
-        # 結果発表
-        sg.popup(
-            "終わりました、おめでとうございます！",
-            f"かかった時間：{int(seconds / 60)}分{seconds % 60}秒",
-            f"まちがえたしつもん：{mistake_count}件",
-            "明日もがんばりましょう～",
-            title="終わり！",
-            font=20,
-        )
 
-        # reset quiz
-        main_window["out"].update("")
-        main_window["number"].update("")
-        question_list = []
-        count = 0
-        mistake_count = 0
-        temp_mistake = 0
-        start_time = 0
-        seconds = 0
-        keys_entered = ""
-        submit = ""
+if __name__ == "__main__":
+    set_up()
